@@ -23,35 +23,37 @@
         <button type="button" onclick="moveList()">목록</button>
 
         <h3>파일목록</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>no</th>
-                    <th>id</th>
-                    <th>이미지</th>
-                    <th>파일명</th>
-                    <th>용량</th>
-                    <th>타입</th>
-                    <th>액션</th>
-                </tr>
-            </thead>
-            <th:block th:each="file : ${fileList}">
-                <tr>
-                    <td th:text="${file.no}"></td>
-                    <td th:text="${file.id}"></td>
-                    <td>
-                        <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
-                    </td>
-                    <td th:text="${file.fileName}"></td>
-                    <td th:text="${file.fileSize}"></td>
-                    <td th:text="${file.type}"></td>
-                    <td>
-                        <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
-                        <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button>
-                    </td>
-                </tr>
-            </th:block>
-        </table>
+        <section id="file-list">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>no</th>
+                        <!-- <th>id</th> -->
+                        <th>이미지</th>
+                        <th>파일명</th>
+                        <th>용량</th>
+                        <th>타입</th>
+                        <th>액션</th>
+                    </tr>
+                </thead>
+                <th:block th:each="file : ${fileList}">
+                    <tr>
+                        <td th:text="${file.no}"></td>
+                        <!-- <td th:text="${file.id}"></td> -->
+                        <td>
+                            <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
+                        </td>
+                        <td th:text="${file.fileName}"></td>
+                        <td th:text="${file.fileSize}"></td>
+                        <td th:text="${file.type}"></td>
+                        <td>
+                            <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
+                            <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+        </section>
     </form>
 
     <script>
@@ -72,29 +74,30 @@
         }
 
         // 파일 삭제
-        function remove( element, id ) {
+        function remove(element, id) {
             let request = new XMLHttpRequest()
 
-            request.onreadystatechange = function() {
+            request.onreadystatechange = function () {
 
-                if( request.readyState == request.DONE && request.status == 200 ) {
+                if (request.readyState == request.DONE && request.status == 200) {
                     let response = request.responseText
-                    if ( response == 'SUCCESS' ) {
+                    if (response == 'SUCCESS') {
                         alert('파일 삭제 성공')
                         // 파일 목록 갱신
                         // 방법1 - 페이지 새로고침
                         // location.reload()
 
                         // 방법2 - DOM으로 파일 항목 행 삭제
-                        alert(element)
-                        console.log(element);
-                        element.parentNode.parentNode.remove() // button > td > tr
+                        // alert(element)
+                        // console.log(element);
+                        // element.parentNode.parentNode.remove() // button > td > tr
 
                         // 방법3 - 파일목록 비동기로 요청
                         // 1. JSON 데이터를 받고 렌더링
 
                         // 2. 파일목록 뷰(html)를 응답받아 렌더링
-                        
+                        getFileList()
+
                     }
                     else {
                         alert('파일 삭제 실패')
@@ -104,6 +107,28 @@
             }
             const url = `/file/${id}`
             request.open('DELETE', url, true)
+            request.send()
+        }
+
+        // 파일목록 비동기 요청
+        function getFileList() {
+            let parentTable = 'board'
+            let parentNo = '[[${board.no}]]'
+            let url = `/file?parentTable=${parentTable}&parentNo=${parentNo}`
+
+            let request = new XMLHttpRequest()
+
+            request.onreadystatechange = function () {
+                if (request.readyState == request.DONE && request.status == 200) {
+                    console.log('파일 목록 갱신 성공');
+                    let fileList = request.responseText
+                    let $fileList = document.getElementById('file-list')
+                    $fileList.innerHTML = ""            // 기본 파일 목록 비우기
+                    $fileList.innerHTML = fileList      // 새로 조회한 파일목록으로 갱신
+                    
+                }
+            }
+            request.open('GET', url, true)
             request.send()
         }
 

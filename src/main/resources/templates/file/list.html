@@ -1,0 +1,29 @@
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>no</th>
+                    <!-- <th>id</th> -->
+                    <th>이미지</th>
+                    <th>파일명</th>
+                    <th>용량</th>
+                    <th>타입</th>
+                    <th>액션</th>
+                </tr>
+            </thead>
+            <th:block th:each="file : ${fileList}">
+                <tr>
+                    <td th:text="${file.no}"></td>
+                    <!-- <td th:text="${file.id}"></td> -->
+                    <td>
+                        <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
+                    </td>
+                    <td th:text="${file.fileName}"></td>
+                    <td th:text="${file.fileSize}"></td>
+                    <td th:text="${file.type}"></td>
+                    <td>
+                        <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
+                        <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
