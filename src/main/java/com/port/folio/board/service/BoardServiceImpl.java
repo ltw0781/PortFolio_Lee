@@ -66,7 +66,15 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int update(Board board) throws Exception {
+        // 게시글 정보 수정
         int result = boardMapper.update(board);
+
+        // 삭제할 파일 처리
+        List<String> deleteFiles = board.getDeleteFiles();
+        for (String fileId : deleteFiles) {
+            log.info("fileId : " + fileId);
+        }
+
         return result;
     }
 

@@ -46,7 +46,7 @@
             ,writer = #{writer}
             ,content = #{content}
             ,updated_at = now()
-        WHERE no = #{no}
+        WHERE id = #{id}
     </update>
 
     <delete id="delete">
