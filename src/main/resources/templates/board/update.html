@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글상세</title>
+</head>
+
+<body>
+    <form id="form" action="/board/update" method="post">
+        <input type="hidden" name="id" id="id" th:value="${board.id}">
+        <h3>상세화면</h3>
+        <label for="title">카테고리</label>
+        <input type="text" name="category" id="category" th:value="${board.category}" readonly>
+        <label for="title">제목</label>
+        <input type="text" name="title" id="title" th:value="${board.title}">
+        <br>
+        <label for="title">작성자</label>
+        <input type="text" name="writer" id="writer" th:value="${board.writer}">
+        <br>
+        <label for="title">내용</label>
+        <textarea name="content" id="content" th:text="${board.content}"></textarea>
+
+        <button type="submit">수정</button>
+        <button type="button" onclick="moveList()">목록</button>
+        <button type="button" onclick="moveDelete()">삭제</button>
+    </form>
+
+    <script>
+
+        let form = document.getElementById('form')
+
+        let no = "[[${board.id}]]"
+
+        function moveUpdate() {
+            location.href = '/board/update?id=' + id
+        }
+
+        function moveDelete() {
+            let check = confirm('정말로 삭제하시겠습니까?')
+            if (check) {
+                form.action = '/board/delete'
+                form.submit()
+            }
+        }
+
+        function moveList() {
+            location.href = '/board/list'
+        }
+
+    </script>
+</body>
+
+</html>

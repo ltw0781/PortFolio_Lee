@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.port.folio.common.mapper.FileMapper">
+
+    <!-- 목록 -->
+    <select id="list" resultType="Files">
+        SELECT *
+        FROM file
+    </select>
+
+    <!-- 조회 -->
+    <select id="select">
+        SELECT *
+        FROM file
+        WHERE id = #{id}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert">
+        INSERT INTO file ( id, file_name, file_path, file_size, type, parent_table, parent_no )
+        VALUES ( #{id}, #{fileName}, #{filePath}, #{fileSize}, #{type}, #{parentTable}, #{parentNo} )
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update">
+        UPDATE file
+            SET file_name = #{fileName}
+            ,SET file_path = #{filePath}
+            ,SET file_size = #{fileSize}
+            ,SET type = #{type}
+            ,SET parent_table = #{parentTable}
+            ,SET parent_no = #{parentNo}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete">
+        DELETE FROM file
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 부모테이블 기준 파일 목록 -->
+    <select id="listByParent" resultType="Files">
+        SELECT *
+        FROM file
+        WHERE parent_table = #{parentTable} AND parent_no = #{parentNo}
+    </select>
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.port.folio.board.mapper.BoardMapper">
+
+    <select id="list" resultType="Board">
+        SELECT *
+        FROM board
+        ORDER BY no DESC
+        LIMIT #{page.index}, #{page.rows}
+    </select>
+
+    <select id="read" resultType="Board">
+        SELECT *
+        FROM board
+        WHERE id = #{id}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO board (
+            id
+            , category
+            , title
+            , writer
+            , content
+            , created_at
+            , updated_at
+            , view_count)
+        VALUES (
+            #{id}
+            , #{category}
+            , #{title}
+            , #{writer}
+            , #{content}
+            , now()
+            , now()
+            , 0
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE board
+        SET
+            title = #{title}
+            ,writer = #{writer}
+            ,content = #{content}
+            ,updated_at = now()
+        WHERE no = #{no}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM board
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 데이터 개수 조회 - [검색] -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 게시글 번호 최댓값 -->
+    <select id="maxPk" resultType="int">
+        SELECT MAX(no)
+        FROM board
+    </select>
+    
+</mapper>
