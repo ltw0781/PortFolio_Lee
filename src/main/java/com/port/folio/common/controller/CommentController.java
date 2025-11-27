@@ -18,6 +18,8 @@ import com.port.folio.common.domain.Comments;
 import com.port.folio.common.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @Slf4j
@@ -71,6 +73,25 @@ public class CommentController {
         if ( result > 0 ) {
             return "SUCCESS";
         }
+        return "FAIL";
+    }
+
+    /**
+     * 댓글 수정
+     * @param comment
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @PutMapping("")
+    public String updateComment(@RequestBody Comments comment) throws Exception{
+
+        int result = commentService.update(comment);
+
+        if (result > 0) {
+            return "SUCCESS";
+        }
+        
         return "FAIL";
     }
     

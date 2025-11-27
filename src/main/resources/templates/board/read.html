@@ -184,6 +184,98 @@
 
         }
 
+        // 댓글 [수정] 버튼 클릭 시 - 수정 폼으로 전환
+        function editComment(button, id) {
+            console.log(button)
+
+            let $table = button.closest('table')
+
+            console.log($table);
+
+            // 기존 작성자와 기존 내용을 가져오기
+            console.log( $table.querySelector('.comment-writer') )
+
+            let writer = $table.querySelector('.comment-writer').textContent
+            let content = $table.querySelector('.comment-content').textContent
+            console.log(writer)
+            console.log(content)
+
+            // 기존 조회 폼은 숨김
+            $table.style.display = 'none'
+
+            // 수정 폼 삽입
+            let updateForm = `
+                <table border="1" style="width: 300px;">
+                    <tr>
+                        <td>
+                            <input type="text" name="writer" id="comment-writer" value="${writer}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="content" id="comment-content" rows="5" cols="40">${content}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <button type="button" onclick="updateComment( '${id}' )">수정</button>
+                            <button type="button" onclick="cancelComment( this )">취소</button>
+                        </td>
+                    </tr>
+                </table>
+            `
+            // DOM 노드는 after() 함수로 다음 요소로 추가
+            // $table.after(updateForm)
+            // 텍스트로된 html 코드를 다음 요소로 추가
+            $table.insertAdjacentHTML("afterend", updateForm)
+        }
+
+        // 댓글 수정 요청
+        function updateComment(id) {
+            console.log(`id : ${id}`);
+            let commentWriter = document.getElementById('comment-writer').value
+            let commentContent = document.getElementById('comment-content').value
+
+            let data = {
+                'id' : id,
+                'writer' : commentWriter,
+                'content' : commentContent
+            }
+
+            let request = new XMLHttpRequest()
+            let url = '/comment'
+            request.open('PUT', url, true)
+            request.setRequestHeader('content-Type', 'application/json')
+            request.send( JSON.stringify(data) )
+
+            request.onreadystatechange = function() {
+                if (request.readyState == request.DONE && request.status == 200) {
+                    let response = request.responseText
+                    if (response == 'SUCCESS') {
+                        console.log('댓글 수정 성공')
+                        commentList()// 댓글 목록 갱신
+                    }
+                    else (
+                        alert('댓글 수정 실패')
+                    )
+                }
+            }
+
+        }
+
+        // 댓글 수정 중 - 취소 버튼 클릭 시
+        function cancelComment( cancelButton ) {
+            // 수정폼
+            let $table = cancelButton.closest('table')
+            
+            // 조회폼
+            let $comment = $table.previousElementSibling // 바로 앞의 형제자매 요소
+
+            $comment.style.display = 'table'            // 조회폼 보여주기
+            $table.remove()                            // 수정폼 제거
+
+        }
+
     </script>
 </body>
 

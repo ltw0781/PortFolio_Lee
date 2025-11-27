@@ -22,7 +22,7 @@
     <update id="update">
         UPDATE comments
             SET writer = #{writer}
-                content = #{content}
+                ,content = #{content}
         WHERE id = #{id}
     </update>
 
