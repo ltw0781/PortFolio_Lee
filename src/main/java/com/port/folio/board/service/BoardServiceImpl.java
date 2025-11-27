@@ -58,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
                 uploadFile.setType("main");
                 fileService.upload(uploadFile);
             }
-            
+
         }
 
         return result;
@@ -71,8 +71,11 @@ public class BoardServiceImpl implements BoardService {
 
         // 삭제할 파일 처리
         List<String> deleteFiles = board.getDeleteFiles();
-        for (String fileId : deleteFiles) {
-            log.info("fileId : " + fileId);
+        if ( deleteFiles != null && !deleteFiles.isEmpty() ) {
+            for (String fileId : deleteFiles) {
+                log.info("fileId : " + fileId);
+                fileService.delete(fileId); // 파일 삭제
+            }
         }
 
         return result;
@@ -80,7 +83,19 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int delete(String id) throws Exception {
+        
+        Board board = boardMapper.read(id);
+        // 게시글 삭제
         int result = boardMapper.delete(id);
+
+        // 첨부파일 종속 삭제
+
+        Files deleteFile = new Files();
+        deleteFile.setParentTable("board");
+        deleteFile.setParentNo(board.getNo());
+        int fileResult = fileService.deleteByParent(deleteFile);
+        log.info("fileResult : " + fileResult);
+
         return result;
 
     }

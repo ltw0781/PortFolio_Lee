@@ -31,7 +31,9 @@
                 <thead>
                     <tr>
                         <th>no</th>
-                        <th>삭제</th>
+                        <th>
+                            <input type="checkbox" id="delete-all" onclick="checkAll()">
+                        </th>
                         <th>이미지</th>
                         <th>파일명</th>
                         <th>용량</th>
@@ -42,7 +44,7 @@
                 <th:block th:each="file : ${fileList}">
                     <tr>
                         <td th:text="${file.no}"></td>
-                        <td><input type="checkbox" name="deleteFiles" th:value="${file.id}"></td>
+                        <td><input type="checkbox" class="delete-file" name="deleteFiles" th:value="${file.id}"></td>
                         <td>
                             <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
                         </td>
@@ -51,7 +53,7 @@
                         <td th:text="${file.type}"></td>
                         <td>
                             <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
-                            <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button>
+                            <button type="button" th:onclick="removeFile( this, [[${file.id}]])">삭제</button>
                         </td>
                     </tr>
                 </th:block>
@@ -81,7 +83,7 @@
         }
 
         // 파일 삭제
-        function remove(element, id) {
+        function removeFile(element, id) {
             let request = new XMLHttpRequest()
 
             request.onreadystatechange = function () {
@@ -132,12 +134,38 @@
                     let $fileList = document.getElementById('file-list')
                     $fileList.innerHTML = ""            // 기본 파일 목록 비우기
                     $fileList.innerHTML = fileList      // 새로 조회한 파일목록으로 갱신
-                    
+
                 }
             }
             request.open('GET', url, true)
             request.send()
         }
+
+        // 전체 선택 - 삭제할 파일 전부 선택
+        function checkAll() {
+            // 전체 체크박스 ☑️
+            const $deleteAll = document.getElementById('delete-all')
+
+            // 개별 파일 체크박스 ☑️
+            const $deleteFile = document.getElementsByClassName('delete-file')
+
+            // 전체 선택
+            if ($deleteAll.checked) {
+                for (let i = 0; i < $deleteFile.length; i++) {
+                    const checkbox = $deleteFile[i];
+                    checkbox.checked = true
+                }
+            }
+            // 전체 선택 해제
+            else {
+                for (let i = 0; i < $deleteFile.length; i++) {
+                    const checkbox = $deleteFile[i];
+                    checkbox.checked = false
+                }
+            }
+
+        }
+
 
     </script>
 </body>

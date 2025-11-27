@@ -2,7 +2,9 @@
             <thead>
                 <tr>
                     <th>no</th>
-                    <!-- <th>id</th> -->
+                    <th>
+                        <input type="checkbox" id="delete-all" onclick="checkAll()">
+                    </th>
                     <th>이미지</th>
                     <th>파일명</th>
                     <th>용량</th>
@@ -13,7 +15,7 @@
             <th:block th:each="file : ${fileList}">
                 <tr>
                     <td th:text="${file.no}"></td>
-                    <!-- <td th:text="${file.id}"></td> -->
+                    <td><input type="checkbox" class="delete-file" name="deleteFiles" th:value="${file.id}"></td>
                     <td>
                         <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
                     </td>
@@ -22,7 +24,7 @@
                     <td th:text="${file.type}"></td>
                     <td>
                         <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
-                        <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button>
+                        <button type="button" th:onclick="removeFile( this, [[${file.id}]])">삭제</button>
                     </td>
                 </tr>
             </th:block>
