@@ -27,7 +27,7 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM contents
+        DELETE FROM comments
         WHERE id = #{id}
     </delete>
 

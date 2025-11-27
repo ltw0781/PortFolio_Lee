@@ -60,36 +60,36 @@
 
 
     </form>
-            <h3>댓글목록</h3>
-        <section id="comment-list">
+    <h3>댓글목록</h3>
+    <section id="comment-list">
 
-        </section>
-        <section id="comment-form">
-            <form action="">
-                <table>
-                    <tr>
-                        <td>작성자</td>
-                        <td align="right">
-                            <input type="text" name="writer" id="writer">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <textarea name="content" id="content" rows="5" cols="40"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="right">
-                            <button type="button" onclick="insertComment()">등록</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </section>
+    </section>
+    <section id="comment-form">
+        <form action="">
+            <table>
+                <tr>
+                    <td>작성자</td>
+                    <td align="right">
+                        <input type="text" name="writer" id="writer">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea name="content" id="content" rows="5" cols="40"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        <button type="button" onclick="insertComment()">등록</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </section>
 
     <script>
 
-        
+
 
         // 수정화면 이동
         function moveUpdate() {
@@ -116,21 +116,21 @@
 
             let data = {
 
-                'boardNo' : boardNo,
-                'writer' : writer,
-                'content' : content
+                'boardNo': boardNo,
+                'writer': writer,
+                'content': content
             }
 
             let request = new XMLHttpRequest()
             let url = '/comment'
-            request.open( 'POST', url, true )
+            request.open('POST', url, true)
             request.setRequestHeader('Content-Type', 'application/json')
-            request.send( JSON.stringify(data) )
+            request.send(JSON.stringify(data))
 
-            request.onreadystatechange = function() {
-                if ( request.readyState == request.DONE && request.status == 200 ) {
+            request.onreadystatechange = function () {
+                if (request.readyState == request.DONE && request.status == 200) {
                     let response = request.responseText
-                    if ( response == 'SUCCESS' ) {
+                    if (response == 'SUCCESS') {
                         console.log('댓글 등록 성공')
                         // 댓글 목롣 갱신
                         commentList()
@@ -152,11 +152,36 @@
             request.open('GET', url, true)
             request.send()
 
-            request.onreadystatechange = function() {
+            request.onreadystatechange = function () {
                 let commentList = request.responseText
                 let $commentList = document.getElementById('comment-list')
                 $commentList.innerHTML = commentList
             }
+        }
+
+        function removeComment(id) {
+
+            let request = new XMLHttpRequest()
+            let url = `/comment/${id}`
+            request.open('DELETE', url, true)
+            request.send()
+            request.onreadystatechange = function () {
+                if (request.readyState == request.DONE && request.status == 200) {
+
+                    let response = request.responseText
+                    if (response == 'SUCCESS') {
+                        console.log('댓글 삭제 성공')
+
+                        commentList()
+                    }
+                    else {
+                        alert('댓글 삭제 실패')
+                    }
+
+
+                }
+            }
+
         }
 
     </script>
