@@ -2,6 +2,7 @@ package com.port.folio.common.controller;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
 
 import com.port.folio.common.domain.Files;
 import com.port.folio.common.service.FileService;
@@ -62,53 +64,55 @@ public class FileController {
     }
 
     /**
-     * 다운로드
-     * @param id
-     * @return
-     * @throws Exception
-     */
+    * 다운로드
+    * @param id
+    * @return
+    * @throws Exception
+    */
     @GetMapping("/file/{id}")
-    public ResponseEntity<byte[]> download(@PathVariable("id") String id) throws Exception {
+    public ResponseEntity<byte[]> download(@PathVariable("id") String id) throws
+    Exception {
 
-        Files file = fileService.select(id);
+    Files file = fileService.select(id);
 
-        String filePath = file.getFilePath();
-        String fileName = file.getFileName();
+    String filePath = file.getFilePath();
+    String fileName = file.getFileName();
 
-        // 한글 파일명 인코딩
-        fileName = URLEncoder.encode(fileName, "UTF-8");
+    // 한글 파일명 인코딩
+    fileName = URLEncoder.encode(fileName, "UTF-8");
 
-        // 파일 객체 생성
-        File f = new File(filePath);
+    // 파일 객체 생성
+    File f = new File(filePath);
 
-        // 파일 데이터
-        byte[] fileData = FileCopyUtils.copyToByteArray(f);
+    // 파일 데이터
+    byte[] fileData = FileCopyUtils.copyToByteArray(f);
 
-        // 파일 응답을 위한 헤더 설정
-        // - ContentType            : application/octect-stream
-        // - Content-Disposition    : attachment; filename="파일명.확장자"
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", fileName );
+    // 파일 응답을 위한 헤더 설정
+    // - ContentType : application/octect-stream
+    // - Content-Disposition : attachment; filename="파일명.확장자"
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    headers.setContentDispositionFormData("attachment", fileName );
 
-        return new ResponseEntity<>(fileData, headers, HttpStatus.OK);
+    return new ResponseEntity<>(fileData, headers, HttpStatus.OK);
     }
 
     /**
      * 파일 삭제
+     * 
      * @param id
      * @return
      * @throws Exception
      */
     @ResponseBody
     @DeleteMapping("/file/{id}")
-    public String deleteFile(@PathVariable("id") String id) throws Exception{
+    public String deleteFile(@PathVariable("id") String id) throws Exception {
 
         int result = fileService.delete(id);
-        
+
         // 파일 삭제 성공
         if (result > 0) {
-            
+
             return "SUCCESS";
         }
         // 파일 삭제 실패
@@ -118,17 +122,17 @@ public class FileController {
 
     /**
      * 파일 목록
+     * 
      * @param param parentTable, parentNo
      * @return
      */
     @GetMapping("/file")
-    public String fileList(Model model, Files file ) throws Exception{
+    public String fileList(Model model, Files file) throws Exception {
 
         List<Files> fileList = fileService.listByParent(file);
         model.addAttribute("fileList", fileList);
 
         return "/file/list";
     }
-    
 
 }
