@@ -1,17 +1,32 @@
--- Active: 1763393025352@@127.0.0.1@3306@example
-DROP TABLE IF EXISTS `file`;
+DROP TABLE IF EXISTS `common`;
 
-CREATE TABLE `file` (
+CREATE TABLE `common` (
 	`no`	BIGINT	NOT NULL	COMMENT 'PK',
 	`id`	VARCHAR(255)	NOT NULL	COMMENT 'UK',
-	`file_name`	TEXT	NOT NULL	COMMENT '파일명',
-	`file_path`	TEXT	NOT NULL	COMMENT '파일경로',
-	`file_size`	BIGINT	NULL	COMMENT '용량',
-	`type`	ENUM('main','sub')	NOT NULL	COMMENT '타입',
-	`parent_table`	VARCHAR(100)	NOT NULL	COMMENT '부모테이블',
-	`parent_no`	BIGINT	NOT NULL	COMMENT '부모PK',
-	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '등록일자',
-	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '수정일자'
+	`created_at`	TIMESTAMP	NOT NULL	COMMENT '등록일자',
+	`updated_at`	TIMESTAMP	NOT NULL	COMMENT '수정일자'
+);
+
+DROP TABLE IF EXISTS `carts`;
+
+CREATE TABLE `carts` (
+	`cart_no`	BIGINT	NOT NULL	COMMENT '장바구니번호',
+	`product_no`	BIGINT	NOT NULL	COMMENT '상품번호',
+	`quantity`	INT	NOT NULL	DEFAULT 0	COMMENT '수량',
+	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRNET_TIMESTAMP	COMMENT '등록일자'
+);
+
+DROP TABLE IF EXISTS `payments`;
+
+CREATE TABLE `payments` (
+	`payment_no`	BIGINT	NOT NULL	COMMENT '결제번호',
+	`order_no`	VARCHAR(100)	NOT NULL	COMMENT '주문번호',
+	`total_amount`	DECIMAL(10,2)	NOT NULL	COMMENT '총주문금액',
+	`payment_method`	VARCHAR(50)	NOT NULL	COMMENT '결제방식',
+	`status`	VARCHAR(50)	NOT NULL	COMMENT '상태',
+	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRNET_TIMESTAMP	COMMENT '등록일자',
+	`Field`	VARCHAR(255)	NULL,
+	`username`	VARCHAR(100)	NOT NULL	COMMENT '회원아이디'
 );
 
 DROP TABLE IF EXISTS `board`;
@@ -28,6 +43,14 @@ CREATE TABLE `board` (
 	`view_count`	int	NOT NULL	DEFAULT 0	COMMENT '조회수'
 );
 
+DROP TABLE IF EXISTS `user_auth`;
+
+CREATE TABLE `user_auth` (
+	`no`	BIGINT	NOT NULL	COMMENT '번호',
+	`username`	VARCHAR(100)	NOT NULL	COMMENT '회원아이디',
+	`auth`	VARCHAR(255)	NOT NULL	COMMENT '권한'
+);
+
 DROP TABLE IF EXISTS `comments`;
 
 CREATE TABLE `comments` (
@@ -38,15 +61,6 @@ CREATE TABLE `comments` (
 	`content`	TEXT	NULL	COMMENT '내용',
 	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '등록일자',
 	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '수정일자'
-);
-
-DROP TABLE IF EXISTS `common`;
-
-CREATE TABLE `common` (
-	`no`	BIGINT	NOT NULL	COMMENT 'PK',
-	`id`	VARCHAR(255)	NOT NULL	COMMENT 'UK',
-	`created_at`	TIMESTAMP	NOT NULL	COMMENT '등록일자',
-	`updated_at`	TIMESTAMP	NOT NULL	COMMENT '수정일자'
 );
 
 DROP TABLE IF EXISTS `users`;
@@ -64,14 +78,6 @@ CREATE TABLE `users` (
 	`status`	INT	NOT NULL	DEFAULT 0	COMMENT '진행상태'
 );
 
-DROP TABLE IF EXISTS `user_auth`;
-
-CREATE TABLE `user_auth` (
-	`no`	BIGINT	NOT NULL	COMMENT '번호',
-	`username`	VARCHAR(100)	NOT NULL	COMMENT '회원아이디',
-	`auth`	VARCHAR(255)	NOT NULL	COMMENT '권한'
-);
-
 DROP TABLE IF EXISTS `products`;
 
 CREATE TABLE `products` (
@@ -82,44 +88,23 @@ CREATE TABLE `products` (
 	`stock`	INT	NOT NULL	DEFAULT 0	COMMENT '상품재고',
 	`product_nm`	VARCHAR(100)	NULL	COMMENT '상품종류',
 	`product_img`	VARCHAR(255)	NULL	COMMENT '상품이미지',
+	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRNET_TIMESTAMP	COMMENT '등록일자',
+	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRNET_TIMESTAMP	COMMENT '수정일자'
+);
+
+DROP TABLE IF EXISTS `file`;
+
+CREATE TABLE `file` (
+	`no`	BIGINT	NOT NULL	COMMENT 'PK',
+	`id`	VARCHAR(255)	NOT NULL	COMMENT 'UK',
+	`file_name`	TEXT	NOT NULL	COMMENT '파일명',
+	`file_path`	TEXT	NOT NULL	COMMENT '파일경로',
+	`file_size`	BIGINT	NULL	COMMENT '용량',
+	`type`	ENUM('main','sub')	NOT NULL	COMMENT '타입',
+	`parent_table`	VARCHAR(100)	NOT NULL	COMMENT '부모테이블',
+	`parent_no`	BIGINT	NOT NULL	COMMENT '부모PK',
 	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '등록일자',
 	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '수정일자'
-);
-
-DROP TABLE IF EXISTS `payments`;
-
-CREATE TABLE `payments` (
-	`payment_no`	BIGINT	NOT NULL	COMMENT '결제번호',
-	`order_no`	VARCHAR(100)	NOT NULL	COMMENT '주문번호',
-	`total_amount`	DECIMAL(10,2)	NOT NULL	COMMENT '총주문금액',
-	`payment_method`	VARCHAR(50)	NOT NULL	COMMENT '결제방식',
-	`status`	VARCHAR(50)	NOT NULL	COMMENT '상태',
-	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '등록일자',
-	`Field`	VARCHAR(255)	NULL,
-	`username`	VARCHAR(100)	NOT NULL	COMMENT '회원아이디'
-);
-
-DROP TABLE IF EXISTS `carts`;
-
-CREATE TABLE `carts` (
-	`cart_no`	BIGINT	NOT NULL	COMMENT '장바구니번호',
-	`product_no`	BIGINT	NOT NULL	COMMENT '상품번호',
-	`quantity`	INT	NOT NULL	DEFAULT 0	COMMENT '수량',
-	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '등록일자'
-);
-
-
-
-ALTER TABLE `file` ADD CONSTRAINT `PK_FILE` PRIMARY KEY (
-	`no`
-);
-
-ALTER TABLE `board` ADD CONSTRAINT `PK_BOARD` PRIMARY KEY (
-	`no`
-);
-
-ALTER TABLE `comments` ADD CONSTRAINT `PK_COMMENTS` PRIMARY KEY (
-	`no`
 );
 
 ALTER TABLE `common` ADD CONSTRAINT `PK_COMMON` PRIMARY KEY (
@@ -135,9 +120,17 @@ ALTER TABLE `payments` ADD CONSTRAINT `PK_PAYMENTS` PRIMARY KEY (
 	`payment_no`
 );
 
+ALTER TABLE `board` ADD CONSTRAINT `PK_BOARD` PRIMARY KEY (
+	`no`
+);
+
 ALTER TABLE `user_auth` ADD CONSTRAINT `PK_USER_AUTH` PRIMARY KEY (
 	`no`,
 	`username`
+);
+
+ALTER TABLE `comments` ADD CONSTRAINT `PK_COMMENTS` PRIMARY KEY (
+	`no`
 );
 
 ALTER TABLE `users` ADD CONSTRAINT `PK_USERS` PRIMARY KEY (
@@ -146,6 +139,10 @@ ALTER TABLE `users` ADD CONSTRAINT `PK_USERS` PRIMARY KEY (
 
 ALTER TABLE `products` ADD CONSTRAINT `PK_PRODUCTS` PRIMARY KEY (
 	`product_no`
+);
+
+ALTER TABLE `file` ADD CONSTRAINT `PK_FILE` PRIMARY KEY (
+	`no`
 );
 
 ALTER TABLE `carts` ADD CONSTRAINT `FK_products_TO_carts_1` FOREIGN KEY (
@@ -161,4 +158,3 @@ ALTER TABLE `user_auth` ADD CONSTRAINT `FK_users_TO_user_auth_1` FOREIGN KEY (
 REFERENCES `users` (
 	`username`
 );
-
