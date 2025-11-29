@@ -86,7 +86,7 @@ CREATE TABLE `products` (
 	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '수정일자'
 );
 
-DROP TABLE IF EXISTS `payments`;
+DROP TABLE IF EXISTS `payments`;Q
 
 CREATE TABLE `payments` (
 	`payment_no`	BIGINT	NOT NULL	COMMENT '결제번호',

@@ -69,9 +69,28 @@ public class BoardServiceImpl implements BoardService {
         // 게시글 정보 수정
         int result = boardMapper.update(board);
 
+        log.info("Update board no = {}", board.getNo());
+
+        List<MultipartFile> fileList = board.getFileList();
+
+        for (MultipartFile file : fileList) {
+
+            // ★ 여기가 핵심!
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
+            
+            Files uploadFile = new Files();
+            uploadFile.setFile(file);
+            uploadFile.setParentTable("board");
+            uploadFile.setParentNo(board.getNo());
+            uploadFile.setType("main");
+            fileService.upload(uploadFile);
+        }
+
         // 삭제할 파일 처리
         List<String> deleteFiles = board.getDeleteFiles();
-        if ( deleteFiles != null && !deleteFiles.isEmpty() ) {
+        if (deleteFiles != null && !deleteFiles.isEmpty()) {
             for (String fileId : deleteFiles) {
                 log.info("fileId : " + fileId);
                 fileService.delete(fileId); // 파일 삭제
@@ -83,7 +102,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int delete(String id) throws Exception {
-        
+
         Board board = boardMapper.read(id);
         // 게시글 삭제
         int result = boardMapper.delete(id);

@@ -8,7 +8,8 @@
 </head>
 
 <body>
-    <form id="form" action="/board/update" method="post">
+    <form id="form" action="/board/update" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="no" th:value="${board.no}">
         <input type="hidden" name="id" th:value="${board.id}">
         <h3>상세화면</h3>
         <label for="title">카테고리</label>
@@ -21,6 +22,11 @@
         <br>
         <label for="title">내용</label>
         <textarea name="content" id="content" th:text="${board.content}"></textarea>
+
+        <br><br>
+
+        <label for="file">파일</label>
+        <input type="file" name="fileList" multiple>
 
         <button type="submit">수정</button>
         <button type="button" onclick="moveList()">목록</button>
@@ -166,7 +172,7 @@
 
         }
 
-        
+
 
 
     </script>
