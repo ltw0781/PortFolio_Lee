@@ -61,8 +61,8 @@ public class SecurityConfig {
         // 인가 설정
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
-                .requestMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers( "/main/**", "/board/**", "/comment/**").permitAll()
+                .requestMatchers("/users/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/main/**", "/board/**", "/comment/**").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**").permitAll()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().permitAll());
@@ -144,7 +144,6 @@ public class SecurityConfig {
         }
         return repositoryImpl;
     }
-
     // /**
     // * 인메모리 인증방식
     // * @return

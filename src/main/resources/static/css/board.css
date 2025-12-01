@@ -1,0 +1,133 @@
+/* 게시판 목록 */
+
+/* 게시판 전체 섹션 */
+.board-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px;
+    animation: fadeUp 0.5s ease-out;
+}
+
+/* 상단 헤더 */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.board-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* 글쓰기 버튼 */
+.write-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+/* 검색 영역 */
+.search-box {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.category-select,
+.search-input {
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.search-input {
+    flex: 1;
+}
+
+.search-btn {
+    padding: 0 24px;
+    border-radius: 10px;
+}
+
+/* 글래스 테이블 */
+.board-table {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.board-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.board-table th {
+    padding: 14px 0;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-table td {
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+}
+
+.board-table td.title {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.board-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.55);
+    transition: 0.2s;
+}
+
+/* 페이징 */
+.paging {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 28px;
+}
+
+.page-btn {
+    padding: 5px 7px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-block;
+}
+
+.page-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.page-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+/* 애니메이션 */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
