@@ -1,0 +1,125 @@
+/* HERO SECTION */
+.hero {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 600px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: url('/img/model.png') center/cover no-repeat;
+    border-radius: 20px;
+}
+
+.hero-left {
+    flex: 1;
+    max-width: 50%;
+}
+
+.hero-left h1 {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 24px;
+}
+
+.hero-left p {
+    font-size: 20px;
+    color: #444;
+    margin-bottom: 32px;
+}
+
+.hero-right {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.hero-right img {
+    width: 90%;
+    max-height: 580px;
+    object-fit:cover;
+    border-radius: 20px;
+}
+
+
+/* SECTION 기본 */
+.section {
+    max-width: 1280px;
+    margin: 120px auto 0;
+    padding: 0 32px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.section-header h2 {
+    font-size: 26px;
+}
+
+.more {
+    color: var(--accent);
+}
+
+/* 베스트 상품 */
+.best-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+/* 신상품 */
+.new-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.new-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #eee;
+    padding: 20px;
+}
+
+.new-card img {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* EVENT BANNER */
+.event-banner {
+    background: url('/img/new_img1.png') center/cover no-repeat;
+    height: 260px;
+    border-radius: 16px;
+    margin: 120px 32px 0;
+    display: flex;
+    align-items: center;
+    padding-left: 60px;
+}
+
+.event-glass {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(20px);
+    padding: 30px 40px;
+    border-radius: 16px;
+}
+
+.event-glass h3 {
+    font-size: 24px;
+}
+
+.event-glass p {
+    margin: 10px 0 20px;
+    color: #444;
+}

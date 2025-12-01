@@ -1,0 +1,23 @@
+<th:block th:fragment="custom-header">
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="container nav-area">
+            <div class="logo">SHOPLOGO</div>
+
+            <nav class="nav">
+                <ul>
+                    <li><a href="#">상품</a></li>
+                    <li><a href="#">이벤트</a></li>
+                    <li><a href="/board/list">게시판</a></li>
+                    <li><a href="#">Q&A</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-icons">
+                <a href="/main/login">로그인</a>
+                <a href="/main/cart">장바구니</a>
+            </div>
+        </div>
+    </header>
+    <script src="/js/header.js"></script>
+</th:block>

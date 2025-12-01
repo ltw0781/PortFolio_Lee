@@ -1,12 +1,93 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/mainpage_layout}" lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>쇼핑몰 메인</title>
+
 </head>
-<body>
-    <h1>메인 페이지</h1>
-    <a href="/board/list">게시판</a>
+
+<body layout:fragment="content">
+
+    <div class="container">
+
+        <div class="inner">
+
+            <!-- 히어로 배너 -->
+            <section class="hero">
+                <div class="hero-left">
+                    <h1>당신의 스타일을<br>완성하세요</h1>
+                    <p>새로운 시즌 인기 상품을 만나보세요</p>
+                    <button class="btn-primary">지금 쇼핑하기</button>
+                </div>
+            </section>
+
+            <!-- 베스트 상품 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>베스트 상품</h2>
+                    <a href="#none" class="more">더 보기 →</a>
+                </div>
+
+                <div class="best-grid">
+                    <div class="product-card">
+                        <img src="/img/best_img1.png" alt="">
+                        <p class="product-title">상품명 A</p>
+                        <p class="product-price">₩49,000</p>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="/img/best_img2.png" alt="">
+                        <p class="product-title">상품명 B</p>
+                        <p class="product-price">₩69,000</p>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="/img/best_img3.png" alt="">
+                        <p class="product-title">최신상품 C</p>
+                        <p class="product-price">₩89,000</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 신상품 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>신상품</h2>
+                </div>
+
+                <div class="new-grid">
+                    <div class="new-card">
+                        <img src="/img/new_img1.png" alt="">
+                        <div class="info">
+                            <p class="product-title">최신상품 A</p>
+                            <p class="product-price">₩79,000</p>
+                        </div>
+                    </div>
+
+                    <div class="new-card">
+                        <img src="/img/new_img2.png" alt="">
+                        <div class="info">
+                            <p class="product-title">최신상품 B</p>
+                            <p class="product-price">₩99,000</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 공동구매 배너 -->
+            <section class="event-banner">
+                <div class="event-glass">
+                    <h3>공동구매 특가!</h3>
+                    <p>지금 참여하고 더 큰 혜택을 받아보세요</p>
+                    <button class="btn-primary">공동구매 참여</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
 </body>
+
 </html>
