@@ -1,4 +1,4 @@
--- Active: 1763393025352@@127.0.0.1@3306@example
+-- Active: 1752121213398@@127.0.0.1@3306@example
 -- ============================================
 -- 1) DROP TABLE: FK 의존 관계 고려하여 삭제
 -- ============================================
@@ -105,6 +105,7 @@ CREATE TABLE `comments` (
     `board_no` BIGINT NOT NULL COMMENT 'FK: board.no',
     `writer` VARCHAR(100) NOT NULL COMMENT '작성자',
     `content` TEXT NULL COMMENT '내용',
+    `parent_no` INT NOT NULL COMMENT '부모테이블 번호',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일자',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정일자',
     PRIMARY KEY (`no`)

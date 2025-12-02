@@ -43,7 +43,7 @@ public class CommentController {
     }
 
     /**
-     * 댓글 등록
+     * 댓글 목록
      * @param boardNo
      * @param model
      * @return

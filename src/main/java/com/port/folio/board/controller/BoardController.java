@@ -115,7 +115,7 @@ public class BoardController {
             return "redirect:/board/list";
         }
 
-        return "redirect:/board/delete?no=" + id + "&error";
+        return "redirect:/board/update?error&id=" + id + "&error";
     }
 
 }
