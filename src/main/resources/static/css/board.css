@@ -40,6 +40,10 @@ body {
     border-color: #0A84FF;
 }
 
+.input-file {
+    padding: 10px 4px;
+}
+
 /* ===========================
    Animation
 =========================== */
@@ -110,6 +114,22 @@ body {
 }
 .btn-delete:hover {
     background: #e44848;
+}
+
+.btn-delete-line {
+    background: #fff;
+    color: #ff5555;
+    border: 1px solid #ff8888;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.btn-area {
+    margin-top: 10px;
+    text-align: right;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
 }
 
 /* ===========================
@@ -420,4 +440,10 @@ body {
     display: inline-block;
     transform: translateY(-1px);
 }
+
+
+
+/* 게시글 수정 */
+
+
 

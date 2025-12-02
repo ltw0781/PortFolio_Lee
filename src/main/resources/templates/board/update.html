@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/board_layout}" lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -7,65 +8,84 @@
     <title>게시글상세</title>
 </head>
 
-<body>
-    <form id="form" action="/board/update" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="no" th:value="${board.no}">
-        <input type="hidden" name="id" th:value="${board.id}">
-        <h3>상세화면</h3>
-        <label for="title">카테고리</label>
-        <input type="text" name="category" id="category" th:value="${board.category}" readonly>
-        <label for="title">제목</label>
-        <input type="text" name="title" id="title" th:value="${board.title}">
-        <br>
-        <label for="title">작성자</label>
-        <input type="text" name="writer" id="writer" th:value="${board.writer}">
-        <br>
-        <label for="title">내용</label>
-        <textarea name="content" id="content" th:text="${board.content}"></textarea>
+<body layout:fragment="content">
+    <section class="board-update-section fade-up">
 
-        <br><br>
+        <form id="form" action="/board/update" method="post" enctype="multipart/form-data"
+            class="glass-box update-form">
 
-        <label for="file">파일</label>
-        <input type="file" name="fileList" multiple>
+            <input type="hidden" name="no" th:value="${board.no}">
+            <input type="hidden" name="id" th:value="${board.id}">
 
-        <button type="submit">수정</button>
-        <button type="button" onclick="moveList()">목록</button>
-        <button type="button" onclick="moveDelete()">삭제</button>
-        <h3>파일목록</h3>
-        <section id="file-list">
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>no</th>
-                        <th>
-                            <input type="checkbox" id="delete-all" onclick="checkAll()">
-                        </th>
-                        <th>이미지</th>
-                        <th>파일명</th>
-                        <th>용량</th>
-                        <th>타입</th>
-                        <th>액션</th>
-                    </tr>
-                </thead>
-                <th:block th:each="file : ${fileList}">
-                    <tr>
-                        <td th:text="${file.no}"></td>
-                        <td><input type="checkbox" class="delete-file" name="deleteFiles" th:value="${file.id}"></td>
-                        <td>
-                            <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
-                        </td>
-                        <td th:text="${file.fileName}"></td>
-                        <td th:text="${file.fileSize}"></td>
-                        <td th:text="${file.type}"></td>
-                        <td>
-                            <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
-                            <button type="button" th:onclick="removeFile( this, [[${file.id}]])">삭제</button>
-                        </td>
-                    </tr>
-                </th:block>
-            </table>
-        </section>
-    </form>
+            <h3 class="section-title">게시글 수정</h3>
+
+            <label for="category" class="input-label">카테고리</label>
+            <input type="text" name="category" id="category" class="input-text" th:value="${board.category}" readonly>
+
+            <label for="title" class="input-label">제목</label>
+            <input type="text" name="title" id="title" class="input-text" th:value="${board.title}">
+
+            <label for="writer" class="input-label">작성자</label>
+            <input type="text" name="writer" id="writer" class="input-text" th:value="${board.writer}">
+
+            <label for="content" class="input-label">내용</label>
+            <textarea name="content" id="content" class="textarea-content" th:text="${board.content}"></textarea>
+
+            <label class="input-label">파일 업로드</label>
+            <input type="file" name="fileList" multiple class="input-file">
+
+            <div class="btn-area">
+                <button type="submit" class="btn-primary">수정</button>
+                <button type="button" class="btn-secondary" onclick="moveList()">목록</button>
+                <button type="button" class="btn-delete-line" onclick="moveDelete()">삭제</button>
+            </div>
+
+            <h3 class="section-title">파일 목록</h3>
+
+            <section id="file-list" class="glass-box file-list-box">
+                <table class="file-table">
+                    <thead>
+                        <tr>
+                            <th>no</th>
+                            <th>
+                                <input type="checkbox" id="delete-all" onclick="checkAll()">
+                            </th>
+                            <th>이미지</th>
+                            <th>파일명</th>
+                            <th>용량</th>
+                            <th>타입</th>
+                            <th>액션</th>
+                        </tr>
+                    </thead>
+
+                    <th:block th:each="file : ${fileList}">
+                        <tr>
+                            <td th:text="${file.no}"></td>
+                            <td><input type="checkbox" class="delete-file" name="deleteFiles" th:value="${file.id}">
+                            </td>
+
+                            <td>
+                                <img th:src="|/img?id=${file.id}|" class="file-thumb" alt="파일 이미지">
+                            </td>
+
+                            <td th:text="${file.fileName}"></td>
+                            <td th:text="${file.fileSize}"></td>
+                            <td th:text="${file.type}"></td>
+
+                            <td>
+                                <button type="button" class="btn-small"
+                                    th:onclick="download( [[${file.id}]] )">다운로드</button>
+
+                                <button type="button" class="btn-small btn-delete"
+                                    th:onclick="removeFile( this, [[${file.id}]])">삭제</button>
+                            </td>
+                        </tr>
+                    </th:block>
+                </table>
+            </section>
+        </form>
+
+    </section>
 
     <script>
 
