@@ -78,22 +78,20 @@
 
         <!-- 댓글 작성 영역 -->
         <div class="comment-write glass">
-            <form action="">
 
-                <h3>댓글 작성</h3>
+            <h3>댓글 작성</h3>
 
-                <div class="input-group">
-                    <label>작성자</label>
-                    <input type="text" name="writer" id="writer" placeholder="이름을 입력하세요" />
-                </div>
+            <div class="input-group">
+                <label>작성자</label>
+                <input type="text" name="writer" id="writer" placeholder="이름을 입력하세요" />
+            </div>
 
-                <div class="input-group">
-                    <label>내용</label>
-                    <textarea name="content" id="content" rows="5" cols="40" placeholder="댓글 내용을 입력하세요"></textarea>
-                </div>
+            <div class="input-group">
+                <label>내용</label>
+                <textarea name="content" id="content" rows="5" cols="40" placeholder="댓글 내용을 입력하세요"></textarea>
+            </div>
 
-                <button class="btn-primary comment-submit" onclick="insertComment()">등록</button>
-            </form>
+            <button class="btn-primary comment-submit" onclick="insertComment()">등록</button>
         </div>
 
         <!-- 댓글 목록 -->
@@ -299,3 +297,33 @@
 </body>
 
 </html>
+
+
+
+
+
+<table class="comment-table">
+    <thead>
+        <tr>
+            <th>작성자</th>
+            <th>등록일</th>
+            <th>내용</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+    <th:block th:each="comment : ${commentList}">
+        <tbody>
+            <tr>
+                <td><span th:text="${comment.writer}" class="comment-writer"></span></td>
+                <td><span th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+                <td>
+                    <p th:text="${comment.content}" class="comment-content"></p>
+                </td>
+                <td class="comment-actions">
+                    <button class="btn-edit" th:onclick="editComment( this, [[${comment.id}]] )">수정</button>
+                    <button class="btn-delete" th:onclick="removeComment( [[${comment.id}]] )">삭제</button>
+                </td>
+            </tr>
+        </tbody>
+    </th:block>
+</table>

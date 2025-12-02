@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http: //www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layouts/board_layout}" lang="ko">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -8,105 +7,89 @@
     <title>게시글상세</title>
 </head>
 
-<body layout:fragment="content">
+<body>
+    <form action="/board/delete" method="post">
+        <h3>상세화면</h3>
+        <label for="title">제목</label>
+        <input type="text" name="title" th:value="${board.title}" readonly>
+        <br>
+        <label for="title">작성자</label>
+        <input type="text" name="writer" th:value="${board.writer}" readonly>
+        <br>
+        <label for="title">내용</label>
+        <textarea name="content" th:text="${board.content}"></textarea>
 
-    <section class="board-detail-section">
-        <form action="/board/delete" method="post" type>
+        <button type="button" onclick="moveUpdate()">수정</button>
+        <button type="button" onclick="moveList()">목록</button>
+
+        <h3>파일목록</h3>
+        <section id="file-list">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>no</th>
+                        <th>이미지</th>
+                        <th>파일명</th>
+                        <th>용량</th>
+                        <th>타입</th>
+                        <th>액션</th>
+                    </tr>
+                </thead>
+                <th:block th:if="${fileList.isEmpty()}">
+                    <tr>
+                        <td colspan="6" align="center">조회된 데이터가 없습니다.</td>
+                    </tr>
+                </th:block>
+                <th:block th:each="file : ${fileList}">
+                    <tr>
+                        <td th:text="${file.no}"></td>
+                        <td>
+                            <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
+                        </td>
+                        <td th:text="${file.fileName}"></td>
+                        <td th:text="${file.fileSize}"></td>
+                        <td th:text="${file.type}"></td>
+                        <td>
+                            <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
+                            <!-- <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button> -->
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+        </section>
 
 
+    </form>
+    <h3>댓글목록</h3>
+    <section id="comment-list">
 
-            <!-- 상단 영역: 카테고리 / 제목 / 작성자 -->
-            <div class="detail-header glass">
-                <div class="category" th:text="${board.category}"></div>
-
-                <h2 class="detail-title" th:text="${board.title}"></h2>
-
-                <div class="detail-info">
-                    <span th:text="|작성자 : ${board.writer}|"></span>
-                    <span th:text="${#dates.format(board.createdAt, 'YYYY-MM-dd')}"></span>
-                    <span th:text="${board.viewCount}"></span>
-                </div>
-            </div>
-
-            <!-- 내용 영역 -->
-            <div class="detail-content glass">
-                <p th:text="${board.content}"></p>
-            </div>
-
-            <!-- 파일 리스트 -->
-            <div class="detail-files glass">
-                <h3>첨부 파일</h3>
-
-                <div class="file-list">
-                    <div class="file-item">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>no</th>
-                                    <th>이미지</th>
-                                    <th>파일명</th>
-                                    <th>용량</th>
-                                    <th>타입</th>
-                                    <th>액션</th>
-                                </tr>
-                            </thead>
-                            <th:block th:if="${fileList.isEmpty()}">
-                                <tr>
-                                    <td colspan="6" align="center">조회된 데이터가 없습니다.</td>
-                                </tr>
-                            </th:block>
-                            <th:block th:each="file : ${fileList}">
-                                <tr>
-                                    <td th:text="${file.no}"></td>
-                                    <td>
-                                        <img th:src="|/img?id=${file.id}|" height="100" alt="파일 이미지">
-                                    </td>
-                                    <td th:text="${file.fileName}"></td>
-                                    <td th:text="${file.fileSize}"></td>
-                                    <td th:text="${file.type}"></td>
-                                    <td>
-                                        <button type="button" th:onclick="download( [[${file.id}]] )">다운로드</button>
-                                        <!-- <button type="button" th:onclick="remove( this, [[${file.id}]])">삭제</button> -->
-                                    </td>
-                                </tr>
-                            </th:block>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    </section>
+    <section id="comment-form">
+        <form action="">
+            <table>
+                <tr>
+                    <td>작성자</td>
+                    <td align="right">
+                        <input type="text" name="writer" id="writer">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea name="content" id="content" rows="5" cols="40"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        <button type="button" onclick="insertComment()">등록</button>
+                    </td>
+                </tr>
+            </table>
         </form>
-
-        <!-- 댓글 작성 영역 -->
-        <div class="comment-write glass">
-            <form action="">
-
-                <h3>댓글 작성</h3>
-
-                <div class="input-group">
-                    <label>작성자</label>
-                    <input type="text" name="writer" id="writer" placeholder="이름을 입력하세요" />
-                </div>
-
-                <div class="input-group">
-                    <label>내용</label>
-                    <textarea name="content" id="content" rows="5" cols="40" placeholder="댓글 내용을 입력하세요"></textarea>
-                </div>
-
-                <button class="btn-primary comment-submit" onclick="insertComment()">등록</button>
-            </form>
-        </div>
-
-        <!-- 댓글 목록 -->
-        <div class="comment-list glass">
-
-            <h3>댓글 목록</h3>
-            <section id="comment-list">
-
-            </section>
-        </div>
     </section>
 
     <script>
+
+
 
         // 수정화면 이동
         function moveUpdate() {
@@ -210,7 +193,7 @@
             console.log($table);
 
             // 기존 작성자와 기존 내용을 가져오기
-            console.log($table.querySelector('.comment-writer'))
+            console.log( $table.querySelector('.comment-writer') )
 
             let writer = $table.querySelector('.comment-writer').textContent
             let content = $table.querySelector('.comment-content').textContent
@@ -222,26 +205,24 @@
 
             // 수정 폼 삽입
             let updateForm = `
-                <div class="comment-write glass comment-edit-form">
-
-                    <h3>댓글 수정</h3>
-
-                    <div class="input-group">
-                        <label>작성자</label>
-                        <input type="text" name="writer" class="edit-writer" value="${writer}">
-                    </div>
-
-                    <div class="input-group">
-                        <label>내용</label>
-                        <textarea name="content" class="edit-content" rows="5" placeholder="댓글 내용을 입력하세요">${content}</textarea>
-                    </div>
-
-                    <div class="button-area">
-                        <button type="button" class="btn-primary" onclick="updateComment('${id}')">수정</button>
-                        <button type="button" class="btn-edit" onclick="cancelComment(this)">취소</button>
-                    </div>
-
-                </div>
+                <table border="1" style="width: 300px;">
+                    <tr>
+                        <td>
+                            <input type="text" name="writer" id="comment-writer" value="${writer}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="content" id="comment-content" rows="5" cols="40">${content}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <button type="button" onclick="updateComment( '${id}' )">수정</button>
+                            <button type="button" onclick="cancelComment( this )">취소</button>
+                        </td>
+                    </tr>
+                </table>
             `
             // DOM 노드는 after() 함수로 다음 요소로 추가
             // $table.after(updateForm)
@@ -256,18 +237,18 @@
             let commentContent = document.getElementById('comment-content').value
 
             let data = {
-                'id': id,
-                'writer': commentWriter,
-                'content': commentContent
+                'id' : id,
+                'writer' : commentWriter,
+                'content' : commentContent
             }
 
             let request = new XMLHttpRequest()
             let url = '/comment'
             request.open('PUT', url, true)
             request.setRequestHeader('content-Type', 'application/json')
-            request.send(JSON.stringify(data))
+            request.send( JSON.stringify(data) )
 
-            request.onreadystatechange = function () {
+            request.onreadystatechange = function() {
                 if (request.readyState == request.DONE && request.status == 200) {
                     let response = request.responseText
                     if (response == 'SUCCESS') {
@@ -283,10 +264,10 @@
         }
 
         // 댓글 수정 중 - 취소 버튼 클릭 시
-        function cancelComment(cancelButton) {
+        function cancelComment( cancelButton ) {
             // 수정폼
             let $table = cancelButton.closest('table')
-
+            
             // 조회폼
             let $comment = $table.previousElementSibling // 바로 앞의 형제자매 요소
 
@@ -299,3 +280,30 @@
 </body>
 
 </html>
+
+
+
+
+
+<th:block th:each="comment : ${commentList}">
+    <table border="1" style="width: 300px;">
+        <tr>
+            <td>
+                <span th:text="${comment.writer}" class="comment-writer">작성자</span>
+            </td>
+            <td align="right"><span th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일자</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <p th:text="${comment.content}" class="comment-content"></p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <button type="button" th:onclick="editComment( this, [[${comment.id}]] )">수정</button>
+                <button type="button" th:onclick="removeComment( [[${comment.id}]] )">삭제</button>
+            </td>
+        </tr>
+    </table>
+</th:block>

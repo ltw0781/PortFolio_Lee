@@ -265,39 +265,73 @@
 /* ============================
    COMMENT LIST
 ============================ */
-.comment-list h3 {
-    font-size: 20px;
-    margin-bottom: 20px;
+/* 댓글 목록 테이블 */
+.comment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
 }
 
-.comment-item {
-    padding: 18px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.comment-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 6px;
-}
-
-.comment-title {
-    font-size: 16px;
+.comment-table th {
+    padding: 12px 10px;
     font-weight: 600;
+    border-bottom: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.45);
+    text-align: left;
 }
 
-.comment-writer,
-.comment-date {
-    font-size: 13px;
-    color: #666;
-}
-
-.comment-body {
+.comment-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e5e5e5;
     font-size: 14px;
-    line-height: 1.5;
     color: #444;
+    vertical-align: top;
 }
+
+.comment-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.55);
+    transition: 0.2s;
+}
+
+/* 댓글 목록 테이블 관리 버튼 영역 */
+.comment-actions {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+/* 수정 버튼 */
+.btn-edit {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-edit:hover {
+    background: #e2e2e2;
+}
+
+/* 삭제 버튼 */
+.btn-delete {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    background: #ff5c5c;
+    border: 1px solid #e04a4a;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {
+    background: #e44848;
+}
+
+
 
 /* ============================
    Animation

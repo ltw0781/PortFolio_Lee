@@ -1,22 +1,25 @@
-<th:block th:each="comment : ${commentList}">
-    <table border="1" style="width: 300px;">
+<table class="comment-table">
+    <thead>
         <tr>
-            <td>
-                <span th:text="${comment.writer}" class="comment-writer">작성자</span>
-            </td>
-            <td align="right"><span th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일자</span>
-            </td>
+            <th>작성자</th>
+            <th>등록일</th>
+            <th>내용</th>
+            <th>관리</th>
         </tr>
-        <tr>
-            <td colspan="2">
-                <p th:text="${comment.content}" class="comment-content"></p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right">
-                <button type="button" th:onclick="editComment( this, [[${comment.id}]] )">수정</button>
-                <button type="button" th:onclick="removeComment( [[${comment.id}]] )">삭제</button>
-            </td>
-        </tr>
-    </table>
-</th:block>
+    </thead>
+    <th:block th:each="comment : ${commentList}">
+        <tbody>
+            <tr>
+                <td><span th:text="${comment.writer}" class="comment-writer"></span></td>
+                <td><span th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+                <td>
+                    <p th:text="${comment.content}" class="comment-content"></p>
+                </td>
+                <td class="comment-actions">
+                    <button class="btn-edit" th:onclick="editComment( this, [[${comment.id}]] )">수정</button>
+                    <button class="btn-delete" th:onclick="removeComment( [[${comment.id}]] )">삭제</button>
+                </td>
+            </tr>
+        </tbody>
+    </th:block>
+</table>
