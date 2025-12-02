@@ -1,0 +1,18 @@
+<table class="reply-form">
+    <tr>
+        <td>
+            <input type="text" name="writer" id="reply-writer" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <textarea name="content" id="reply-content" rows="5" cols="40"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <button type="button" onclick=" createReply( ${parentNo} ) ">등록</button>
+            <button type="button" onclick=" cancelComment( this )">취소</button>
+        </td>
+    </tr>
+</table>
