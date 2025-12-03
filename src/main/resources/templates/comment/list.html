@@ -1,69 +1,59 @@
 <th:block th:each="comment : ${commentList}">
-    <div class="comment-item-wrap">
+    <table class="comment-item-table glass-box">
+        <tr>
+            <td class="comment-writer-cell">
+                <span th:text="${comment.writer}" class="comment-writer">작성자</span>
+            </td>
 
-        <!-- 답글인 경우 여백 -->
-        <th:block th:if="${ comment.no != comment.parentNo }">
-            <div class="reply-indent"></div>
-        </th:block>
-
-        <table class="comment-item-table glass-box">
-            <tr>
-                <td class="comment-writer-cell">
-                    <span th:text="${comment.writer}" class="comment-writer">작성자</span>
+            <!-- 작성일/수정일 -->
+            <th:block th:if="${ comment.createdAt.time == comment.updatedAt.time }">
+                <td class="comment-date-cell" align="right">
+                    <span th:text="${ #dates.format( comment.createdAt, 'yyyy-MM-dd HH:mm:ss' ) }" class="comment-date">
+                        등록일자
+                    </span>
                 </td>
+            </th:block>
 
-                <!-- 작성일/수정일 -->
-                <th:block th:if="${ comment.createdAt.time == comment.updatedAt.time }">
-                    <td class="comment-date-cell" align="right">
-                        <span th:text="${ #dates.format( comment.createdAt, 'yyyy-MM-dd HH:mm:ss' ) }"
-                              class="comment-date">
-                            등록일자
-                        </span>
-                    </td>
+            <th:block th:if="${ comment.createdAt.time != comment.updatedAt.time }">
+                <td class="comment-date-cell" align="right">
+                    <span th:text="${ #dates.format( comment.updatedAt, 'yyyy-MM-dd HH:mm:ss' ) }" class="comment-date">
+                        등록일자
+                    </span>
+                </td>
+            </th:block>
+        </tr>
+
+        <tr>
+            <td colspan="2" class="comment-content-cell">
+                <p th:text="${comment.content}" class="comment-content">내용</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="comment-action-left">
+
+                <!-- 댓글에 답글 -->
+                <th:block th:if="${ comment.no == comment.parentNo }">
+                    <button type="button" class="btn-small btn-reply"
+                        th:onclick="insertReply( this, [[${comment.no}]] )">답글</button>
                 </th:block>
 
-                <th:block th:if="${ comment.createdAt.time != comment.updatedAt.time }">
-                    <td class="comment-date-cell" align="right">
-                        <span th:text="${ #dates.format( comment.updatedAt, 'yyyy-MM-dd HH:mm:ss' ) }"
-                              class="comment-date">
-                            등록일자
-                        </span>
-                    </td>
+                <!-- 답글에 재답글 -->
+                <th:block th:if="${ comment.no != comment.parentNo }">
+                    <button type="button" class="btn-small btn-reply"
+                        th:onclick="insertReply( this, [[${comment.parentNo}]] )">재답글</button>
                 </th:block>
-            </tr>
 
-            <tr>
-                <td colspan="2" class="comment-content-cell">
-                    <p th:text="${comment.content}" class="comment-content">내용</p>
-                </td>
-            </tr>
+            </td>
 
-            <tr>
-                <td class="comment-action-left">
+            <td align="right" class="comment-action-right">
+                <button type="button" class="btn-small btn-edit"
+                    th:onclick="editComment( this, [[${comment.id}]] )">수정</button>
+                <button type="button" class="btn-small btn-delete"
+                    th:onclick="removeComment( [[${comment.id}]] )">삭제</button>
+            </td>
+        </tr>
 
-                    <!-- 댓글에 답글 -->
-                    <th:block th:if="${ comment.no == comment.parentNo }">
-                        <button type="button" class="btn-small btn-reply"
-                            th:onclick="insertReply( this, [[${comment.no}]] )">답글</button>
-                    </th:block>
+    </table>
 
-                    <!-- 답글에 재답글 -->
-                    <th:block th:if="${ comment.no != comment.parentNo }">
-                        <button type="button" class="btn-small btn-reply"
-                            th:onclick="insertReply( this, [[${comment.parentNo}]] )">재답글</button>
-                    </th:block>
-
-                </td>
-
-                <td align="right" class="comment-action-right">
-                    <button type="button" class="btn-small btn-edit"
-                        th:onclick="editComment( this, [[${comment.id}]] )">수정</button>
-                    <button type="button" class="btn-small btn-delete"
-                        th:onclick="removeComment( [[${comment.id}]] )">삭제</button>
-                </td>
-            </tr>
-
-        </table>
-
-    </div>
 </th:block>

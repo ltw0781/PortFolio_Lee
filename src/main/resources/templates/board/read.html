@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 조회</title>
 
-    <!-- 공통 UI 스타일 -->
-    <link rel="stylesheet" href="/css/board-detail.css">
 
 </head>
 
@@ -101,7 +99,9 @@
 
         <!-- 댓글 목록 -->
         <h3 class="section-title">댓글 목록</h3>
-        <section id="comment-list" class="glass-box comment-list-box"></section>
+        <section id="comment-list" class="glass-box comment-list-box">
+
+        </section>
 
         <!-- 댓글 작성폼 -->
         <section id="comment-form" class="glass-box comment-write-box">
@@ -132,7 +132,6 @@
         <div style="height: 200px;"></div>
 
     </section>
-    <div style="height: 300px;"></div>
 
     <!-- ⭐ Java 객체 ➡ JavaScript 객체로 전달하기 -->
     <!-- <script th:inline="javascript">
@@ -253,10 +252,11 @@
         function editComment(button, id) {
             console.log(button);
             let $table = button.closest('table')
-            console.log($table);
-
+            console.log(';;;;;;;;;;' + $table);
+            
             // 기존 작성자와 기존 내용을 가져오기
             let writer = $table.querySelector('.comment-writer').textContent
+            console.log('111111111' + writer);
             let content = $table.querySelector('.comment-content').textContent
 
             // 기존 조회 폼은 숨김
@@ -267,13 +267,13 @@
                 <table class="reply-form glass-box comment-reply-table fade-up">
                     <tr>
                         <td>
-                            <input type="text" name="writer" id="reply-writer" 
-                                class="input-text comment-input" placeholder="작성자 입력" />
+                            <input type="text" name="writer" id="comment-writer"
+                                class="comment-writer input-text comment-input " placeholder="작성자 입력" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <textarea name="content" id="reply-content" 
+                            <textarea name="content" id="comment-content"
                                     class="textarea-content comment-textarea" rows="5"
                                     placeholder="답글 내용을 입력하세요"></textarea>
                         </td>
@@ -346,7 +346,7 @@
                 <table class="reply-form glass-box comment-reply-table fade-up">
                     <tr>
                         <td>
-                            <input type="text" name="writer" id="reply-writer" 
+                            <input type="text" name="writer" id="reply-writer"
                                 class="input-text comment-input" placeholder="작성자 입력" />
                         </td>
                     </tr>
