@@ -56,13 +56,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable());
+        // http.csrf(csrf -> csrf.disable());
 
         // 인가 설정
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
-                .requestMatchers("/users/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/main/**", "/board/**", "/comment/**").permitAll()
+                .requestMatchers("/users/**", "/board/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/main/**", "/comment/**").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**").permitAll()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().permitAll());
