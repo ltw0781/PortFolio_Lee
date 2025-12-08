@@ -1,12 +1,16 @@
 package com.port.folio.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.port.folio.user.domain.CustomUser;
 import com.port.folio.user.domain.Users;
@@ -106,6 +110,27 @@ public class MainController {
             return "redirect:/main/signup";
         }
         return "redirect:/main/signup?error=true";
+    }
+
+    /**
+     * 아이디 중복 검사
+     * @param username
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @GetMapping("/main/check/{username}")
+    public ResponseEntity<Boolean> userCheck(@PathVariable("username") String username) throws Exception {
+        log.info("아이디 중복 확인 : " + username);
+        Users user = userService.select(username);
+        // 아이디 중복
+        if( user != null ) {
+            log.info("중복된 아이디 입니다 - " + username);
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+        // 사용 가능한 아이디입니다.
+        log.info("사용 가능한 아이디 입니다." + username);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     /**

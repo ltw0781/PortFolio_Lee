@@ -14,16 +14,17 @@
         <div class="signup-box">
 
             <h2 class="signup-title">회원가입</h2>
-            <form action="/main/signup" method="post" class="needs-validation">
+            <form id="form" action="/main/signup" method="post" class="needs-validation" onsubmit="return checkSubmit(event)">
+            <!-- <form id="form" action="/main/signup" method="post" class="needs-validation"> -->
                 <!-- CSRF TOKEN -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <!-- 아이디 -->
                 <div class="input-group">
                     <label>아이디</label>
-                    <div class="id-row">
+                    <div class="id-row" id="box-id">
                         <input type="text" class="form-control" id="username" name="username" value="" placeholder="아이디"
                             autofocus>
-                        <button class="btn-secondary check-btn">중복체크</button>
+                        <button type="button" class="btn-secondary check-btn" onclick="checkId()">중복체크</button>
                     </div>
                 </div>
 
@@ -81,7 +82,7 @@
     <script>
 
 
-        // 💍 CRSF TOKEN
+        // 💍 CSRF TOKEN
         const csrfToken = "[[${_csrf.token}]]"
 
         /*
@@ -100,9 +101,9 @@
                 // 아이디 중복 확인
                 const response = await fetch(`/main/check/${username}`, {
                     method: 'GET',
-                    // headers: {
-                    //     'X-CSRF-TOKEN': csrfToken
-                    // }
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
                 });
 
                 if (response.ok) {
@@ -120,12 +121,12 @@
                     }
                     return false;
                 } else {
-                    alert('아이디 중복 확인 중 오류가 발생했습니다.');
+                    alert('11111111111111아이디 중복 확인 중 오류가 발생했습니다.');
                     return false;
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('아이디 중복 확인 중 오류가 발생했습니다.');
+                alert('222222222222222아이디 중복 확인 중 오류가 발생했습니다.');
                 return false;
             }
         }

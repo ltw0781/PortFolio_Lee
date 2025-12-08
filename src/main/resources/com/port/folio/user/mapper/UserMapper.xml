@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="password" column="password" />
         <result property="name" column="name" />
         <result property="email" column="email" />
+        <result property="address" column="address" />
+        <result property="phone" column="phone" />
         <result property="enabled" column="enabled" />
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
@@ -37,11 +39,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 회원가입  -->
     <insert id="join">
-        INSERT INTO user ( username, password, name, email )
+        INSERT INTO users ( username, password, name, email )
         VALUES ( #{username}, #{password} ,#{name}, #{email} )
     </insert>
 
-        <!-- 회원가입  -->
+        <!-- 회원 권한 등록  -->
     <insert id="insertAuth">
         INSERT INTO user_auth ( username, auth )
         VALUES ( #{username}, #{auth} )
@@ -51,16 +53,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="select" resultMap="UserMap">
         SELECT u.*
               ,auth
-        FROM user u
+        FROM users u
              LEFT JOIN user_auth auth ON u.username = auth.username
         WHERE u.username = #{username}
     </select>
 
 
     <!-- 아이디 중복 확인 -->
-    <select id="existsByUsername" parameterType="string" resultType="int">
+    <select id="existsByUsername">
         SELECT COUNT(*) 
-        FROM user
+        FROM users
         WHERE username = #{username}
     </select>
 
