@@ -14,8 +14,9 @@
         <div class="signup-box">
 
             <h2 class="signup-title">회원가입</h2>
-            <form id="form" action="/main/signup" method="post" class="needs-validation" onsubmit="return checkSubmit(event)">
-            <!-- <form id="form" action="/main/signup" method="post" class="needs-validation"> -->
+            <form id="form" action="/main/signup" method="post" class="needs-validation"
+                onsubmit="return checkSubmit(event)">
+                <!-- <form id="form" action="/main/signup" method="post" class="needs-validation"> -->
                 <!-- CSRF TOKEN -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <!-- 아이디 -->
@@ -37,11 +38,22 @@
                 <!-- 비밀번호 확인 -->
                 <div class="input-group">
                     <label>비밀번호 확인</label>
-                    <div class="pw-check-row">
+                    <div class="pw-check-row " id="box-pw">
                         <input type="password" class="form-control" id="passwordCheck" name="passwordCheck"
                             placeholder="비밀번호 확인">
-                        <button class="btn-secondary pw-check-btn">확인</button>
+                        <button type="button" class="btn-secondary pw-check-btn"
+                            onclick="checkPasswordMatch()">확인</button>
                     </div>
+                </div>
+
+                <div id="password-invalid-success" style="display:none; color:green;">
+                    비밀번호 일치
+                </div>
+                <div id="password-invalid-feedback" style="display:none; color:red;">
+                    비밀번호는 최소 8자 이상이어야 하며, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.
+                </div>
+                <div id="password-invalid-feedback" style="display:none; color:red;">
+                    비밀번호가 일치하지 않습니다.
                 </div>
 
                 <!-- 이름 -->
@@ -121,12 +133,10 @@
                     }
                     return false;
                 } else {
-                    alert('11111111111111아이디 중복 확인 중 오류가 발생했습니다.');
                     return false;
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('222222222222222아이디 중복 확인 중 오류가 발생했습니다.');
                 return false;
             }
         }
@@ -148,8 +158,57 @@
             document.getElementById("form").submit();
         }
 
+        async function checkPasswordMatch() {
+            var password = document.getElementById('password').value;
+            var passwordchk = document.getElementById('passwordCheck').value;
+            var invalidFeedback = document.querySelector('#box-pw .invalid-feedback');
+            let boxPw = document.getElementById('box-pw');
+            var saveBtn = document.getElementById('#save-btn');
+
+            // 비밀번호 유효성 검사
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                alert("비밀번호는 최소 8자 이상이어야 하며, 대문자, 소문자, 숫자 및 특수문자를 포함해야 합니다.");
+                $("#password-invalid-success").hide();
+                $("#password-invalid-feedback").show();
+                invalidFeedback.style.display = 'block';
+                boxPw.classList.remove('was-validated');
+                boxPw.classList.add('needs-validation');
+                saveBtn.prop('disabled', true);
+                return false;
+            }
+
+            // null 또는 undefined 체크
+            if (!password || !passwordchk) {
+                alert("비밀번호를 입력해주세요.");
+                return false;
+            }
+
+            // 비밀번호 일치 여부 확인
+            if (password === passwordchk) {
+                $("#password-invalid-success").show();
+                $("#password-invalid-feedback").hide();
+                invalidFeedback.style.display = 'none';
+                boxPw.classList.remove('needs-validation');
+                boxPw.classList.add('was-validated');
+                saveBtn.prop('disabled', false);
+                return true;
+            } else {
+                $("#password-invalid-success").hide();
+                $("#password-invalid-feedback").show();
+                invalidFeedback.style.display = 'block';
+                boxPw.classList.remove('was-validated');
+                boxPw.classList.add('needs-validation');
+                saveBtn.prop('disabled', true);
+                return false;
+            }
+        }
+
 
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 </body>
 
