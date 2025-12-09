@@ -12,11 +12,22 @@
                     <li><a href="#">Q&A</a></li>
                 </ul>
             </nav>
-
-            <div class="nav-icons">
-                <a href="/main/login">로그인</a>
-                <a href="/main/cart">장바구니</a>
-            </div>
+            <th:block sec:authorize="isAnonymous()">
+                <div class="nav-icons">
+                    <a href="/main/login">로그인</a>
+                    <a href="/main/cart">장바구니</a>
+                </div>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <form action="/main/logout" method="post">
+                    <!-- CSRF TOKEN -->
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="nav-icons">
+                        <button type="submit">로그아웃</button>
+                        <a href="/main/cart">장바구니</a>
+                    </div>
+                </form>
+            </th:block>
         </div>
     </header>
     <script src="/js/header.js"></script>

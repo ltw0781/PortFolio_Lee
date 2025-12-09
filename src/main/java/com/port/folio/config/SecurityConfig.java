@@ -76,7 +76,7 @@ public class SecurityConfig {
                 // .passwordParameter("pw") // 비밀번호 파라미터
                 .loginPage("/main/login") // 로그인 페이지 경로
                 .loginProcessingUrl("/main/login") // 로그인 처리 경로
-                // .defaultSuccessUrl("/?login=true") // 로그인 성공 후 리다이렉트 경로
+                .defaultSuccessUrl("/main/?login=true") // 로그인 성공 후 리다이렉트 경로
                 .successHandler(LoginSuccessHandler) // 로그인 성공 핸들러 설정
                 .failureHandler(loginFailureHAndler) // 로그인 실패 핸들러 설정
         );
@@ -101,8 +101,8 @@ public class SecurityConfig {
                 .logoutUrl("/main/logout") // 로그아웃 요청 경로
                 .logoutSuccessUrl("/main/login?logout=true") // 로그아웃 성공 시 URL
                 .invalidateHttpSession(true) // 세션 초기화
-        // .deleteCookies("remember-id") // 로그아웃 시, 아이디저장 쿠키 삭제
-        // .logoutSuccessHandler(null) // 로그아웃 성공 핸들러 설정
+                // .deleteCookies("remember-id") // 로그아웃 시, 아이디저장 쿠키 삭제
+                // .logoutSuccessHandler(null) // 로그아웃 성공 핸들러 설정
         );
 
         return http.build();
