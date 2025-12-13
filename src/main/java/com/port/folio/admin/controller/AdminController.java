@@ -1,17 +1,13 @@
-package com.port.folio.user.controller;
+package com.port.folio.admin.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.extern.slf4j.Slf4j;
-
+import groovy.util.logging.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/users")
-public class UserController {
-
-
+@RequestMapping("/admin")
+public class AdminController {
     
-
 }
