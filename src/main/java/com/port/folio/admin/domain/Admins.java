@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class Admins extends Users{
 
-    rh
+    
 
 }
