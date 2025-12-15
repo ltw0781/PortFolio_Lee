@@ -60,9 +60,9 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/users/**", "/board/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/main/**", "/comment/**").permitAll()
+                .requestMatchers("/main/**", "/comment/**", "/admin/**").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**").permitAll()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().permitAll());
