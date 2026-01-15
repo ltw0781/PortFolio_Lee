@@ -1,4 +1,4 @@
--- Active: 1752121213398@@127.0.0.1@3306@example
+-- Active: 1763393025352@@127.0.0.1@3306@example
 DROP TABLE IF EXISTS `file`;
 
 CREATE TABLE `file` (
@@ -86,7 +86,7 @@ CREATE TABLE `products` (
 	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT '수정일자'
 );
 
-DROP TABLE IF EXISTS `payments`;Q
+DROP TABLE IF EXISTS `payments`;
 
 CREATE TABLE `payments` (
 	`payment_no`	BIGINT	NOT NULL	COMMENT '결제번호',
